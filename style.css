@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Orienta&display=swap');
 :root {
   --main-white-color: #7c0000;
-  --main-black-color: rgba(35, 0, 236, 0.342);
-  --main-purple-color: #1100ffc0;
+  --main-black-color: rgb(255, 230, 6);
+  --main-purple-color: #ffee00;
 }
 
 * {
@@ -51,6 +51,7 @@ body {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .page-header {
   background: var(--main-white-color);
+  color: whitesmoke;
 }
 .page-header nav {
   display: flex;
@@ -87,11 +88,11 @@ body {
   justify-content: center;
   flex-grow: 1;
   min-height: 350px;
-  background: var(--main-purple-color)
+  background:
     url(Images/art.jpg) no-repeat
     center / cover;
   background-blend-mode: luminosity;
-  color: var(--main-white-color);
+  color: whitesmoke;
 }
 
 .page-main div {
@@ -113,6 +114,7 @@ body {
   display: flex;
   flex-direction: column-reverse;
   background: var(--main-white-color);
+  color: whitesmoke;
 }
 
 .page-footer ul {
