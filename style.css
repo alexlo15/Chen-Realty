@@ -40,6 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100%;
 }
 
 .wrapper > * {
@@ -82,6 +83,17 @@ body {
 
 /* MAIN
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.boxme{
+  border: rgb(255, 230, 6) solid 3px;
+  background-color: rgba(10, 10, 10, 0.424);
+  padding: 25px;
+  margin: 50px;
+}
+
+/* make Chen a little bigger */
+h1{
+    font-size: 50px;
+}
 .page-main {
   display: flex;
   flex-direction: column;
@@ -93,6 +105,7 @@ body {
     center / cover;
   background-blend-mode: luminosity;
   color: whitesmoke;
+ 
 }
 
 .page-main div {
@@ -249,3 +262,6 @@ body {
     transform: translateY(0);
   }
 }
+
+
+/* '''''''''''''''''''''''''''''''''''''''' */
