@@ -86,8 +86,9 @@ body {
 .boxme{
   border: rgb(255, 230, 6) solid 3px;
   background-color: rgba(10, 10, 10, 0.424);
-  padding: 25px;
-  margin: 50px;
+  padding: 15px;
+  margin: 7px;
+  
 }
 
 /* make Chen a little bigger */
