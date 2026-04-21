@@ -1,0 +1,35 @@
+{
+  "id": "C5",
+  "category": "commercial",
+  "status": "Closed",
+  "type": "Office Building",
+  "location": "Point Pleasant, NJ",
+  "address": "River Road Medical Plaza, Point Pleasant, NJ",
+  "price": "$595,000",
+  "beds": 0,
+  "baths": 4,
+  "halfBaths": 0,
+  "sqft": 6200,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "desc": "6,200 sq.ft. office building with 4 suites at River Road Medical Plaza near Rt. 70. Suite #2 occupied by a dentist; 3 suites vacant — suitable for medical, legal, or accountant offices. 32 shared parking spaces.",
+  "description": "6,200 sq.ft. professional office building at River Road Medical Plaza in Point Pleasant, conveniently located near Route 70. The building features four suites — Suite #2 is currently occupied by an established dental practice, with the remaining three suites vacant and ready for new tenants.\n\nSuites are well-suited for medical, legal, accounting, or other professional office uses. The building shares 32 parking spaces with the plaza.",
+  "features": [
+    "6,200 sq.ft. total",
+    "4 professional suites",
+    "Medical plaza location",
+    "1 suite occupied (dental)",
+    "3 suites vacant — immediate availability",
+    "32 shared parking spaces",
+    "Near Route 70"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/21205545_0722500.45125516_std.jpg", "caption": "Building Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "R2",
+  "category": "rentals",
+  "status": "Closed",
+  "type": "Townhouse",
+  "location": "Holmdel, NJ",
+  "address": "Holmdel, NJ",
+  "price": "$2,800/mo",
+  "beds": 3,
+  "baths": 2,
+  "halfBaths": 1,
+  "sqft": 2000,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "style": "Townhouse",
+  "desc": "Updated 3-bed townhouse with full finished basement. Viking stove, Bosch dishwasher, stainless refrigerator, granite counters. Newer hardwood floors in LR & DR. Close to shopping, bus, and train.",
+  "description": "Updated 3-bedroom townhouse in Holmdel featuring a full finished basement and a beautifully appointed kitchen with premium appliances — Viking stove, Bosch dishwasher, and stainless refrigerator — all complemented by granite countertops.\n\nNewer hardwood floors grace the living room and dining room. The finished basement adds flexible living space. Convenient to Holmdel shopping, bus routes, and NJ Transit train.",
+  "features": [
+    "3 bedrooms",
+    "Full finished basement",
+    "Viking stove",
+    "Bosch dishwasher",
+    "Stainless refrigerator",
+    "Granite countertops",
+    "Hardwood floors in LR & DR",
+    "Close to shopping, bus & train"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/Persimmon.64121248_std.jpg", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

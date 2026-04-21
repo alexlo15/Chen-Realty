@@ -1,0 +1,41 @@
+{
+  "id": "SF1",
+  "category": "singleFamily",
+  "status": "Closed",
+  "type": "Single Family",
+  "location": "Ocean, NJ",
+  "address": "Ocean, NJ",
+  "price": "$405,000",
+  "beds": 4,
+  "baths": 2,
+  "halfBaths": 0,
+  "sqft": 1850,
+  "lotSqft": 8500,
+  "yearBuilt": "1990",
+  "style": "Colonial",
+  "heating": "Gas Forced Air",
+  "cooling": "Central A/C",
+  "parking": "Driveway",
+  "desc": "Private 4-bedroom Colonial at end of a quiet street. Fireplace and cathedral ceiling in family room. Updated kitchen with granite countertops and ceramic tiles. Central A/C, updated master bath, aluminum fence. Close to shopping.",
+  "description": "Private 4-bedroom Colonial situated at the end of a quiet street, offering a peaceful retreat with excellent privacy. The family room features a wood-burning fireplace and soaring cathedral ceilings, creating a warm and welcoming gathering space.\n\nThe updated kitchen boasts granite countertops and ceramic tile floors. The master bath has been recently updated. Outside, an aluminum fence encloses the yard. Conveniently located close to shopping and major commuter routes.",
+  "features": [
+    "Wood-burning fireplace",
+    "Cathedral ceiling in family room",
+    "Updated granite kitchen",
+    "Ceramic tile floors",
+    "Central A/C",
+    "Updated master bath",
+    "Aluminum fence",
+    "Private end-of-street location",
+    "Close to shopping"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/Front_View_2011.226115555_std.JPG", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

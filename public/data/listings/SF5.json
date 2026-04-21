@@ -1,0 +1,53 @@
+{
+  "id": "SF5",
+  "category": "singleFamily",
+  "status": "Closed",
+  "type": "Single Family",
+  "location": "Holmdel, NJ",
+  "address": "Holmdel, NJ",
+  "price": "$779,900",
+  "beds": 4,
+  "baths": 3,
+  "halfBaths": 2,
+  "sqft": 4200,
+  "lotSqft": 18750,
+  "yearBuilt": "1998",
+  "style": "Contemporary Colonial",
+  "garage": "2-Car",
+  "mls": "22134567",
+  "taxes": "$12,400 / yr",
+  "heating": "Gas Forced Air",
+  "cooling": "Central A/C",
+  "basement": "Finished Walkout",
+  "school": "Holmdel School District",
+  "hoa": "None",
+  "parking": "Driveway + 2-Car Garage",
+  "desc": "Spacious contemporary custom home — 4 BR, 3 full + 2 half baths, finished walkout basement on a private cul-de-sac wooded lot. Sunken LR with fireplace, great room with wall of windows, gourmet kitchen with granite and stainless appliances. Full house generator.",
+  "description": "This spacious, bright, and well-maintained contemporary custom home sits on a private cul-de-sac wooded lot — offering 4 bedrooms, 3 full baths, 2 half baths, and a finished walkout basement.\n\nThe dramatic sunken Living Room features a wood-burning fireplace and soaring cathedral ceilings. The Great Room boasts a wall of windows and sliders opening to a massive deck overlooking the wooded backyard. The gourmet Kitchen is appointed with custom cabinetry, granite countertops, stainless steel appliances, and a sun-drenched breakfast nook.\n\nThe spacious Family Room includes built-in shelving, perfect for a home library or media space. Upstairs, the Master Bedroom suite offers a generous walk-in closet and a fully updated spa-inspired bathroom. Additional highlights include beautiful paver walkways, professional landscaping, and a full-house generator.",
+  "features": [
+    "Wood-burning fireplace",
+    "Full-house generator",
+    "Cathedral ceilings",
+    "Gourmet kitchen with granite",
+    "Stainless steel appliances",
+    "Master suite with walk-in closet",
+    "Finished walkout basement",
+    "Private wooded cul-de-sac lot",
+    "Paver walkways & landscaping",
+    "Wall of windows + deck access"
+  ],
+  "images": [
+    { "url": "https://cdn1.photos.sparkplatform.com/mo/20190319023420809798000000.jpg", "caption": "Front Exterior" },
+    { "url": "https://picsum.photos/seed/chen-living/1200/800",   "caption": "Living Room" },
+    { "url": "https://picsum.photos/seed/chen-kitchen/1200/800",  "caption": "Gourmet Kitchen" },
+    { "url": "https://picsum.photos/seed/chen-master/1200/800",   "caption": "Master Bedroom" },
+    { "url": "https://picsum.photos/seed/chen-deck/1200/800",     "caption": "Deck & Backyard" },
+    { "url": "https://picsum.photos/seed/chen-basement/1200/800", "caption": "Finished Basement" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

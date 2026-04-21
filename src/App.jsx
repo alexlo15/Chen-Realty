@@ -4,8 +4,6 @@ import { BrowserRouter, Routes, Route, NavLink, useNavigate, useParams, useLocat
 import ListingDetail from "./ListingDetail";
 import "./App.css";
 
-// ─── GLOBAL STYLES (moved to App.css) ────────────────────────────────────────
-
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 function initials(name) {
@@ -55,10 +53,14 @@ function ListingCard({ l, onViewListing }) {
   const [err, setErr] = useState(false);
   return (
     <div className="listing-card" onClick={() => onViewListing?.(l)} style={{ cursor: onViewListing ? "pointer" : "default" }}>
-      {!err && l.img ? <img src={l.img} alt={`${l.type} in ${l.location}`} className="listing-img" onError={() => setErr(true)} loading="lazy" /> : <div className="listing-img-ph">🏠</div>}
+      {!err && l.img ? (
+        <img src={l.img} alt={`${l.type} in ${l.location}`} className="listing-img" onError={() => setErr(true)} loading="lazy" />
+      ) : (
+        <div className="listing-img-ph">No Photo</div>
+      )}
       <div className="listing-body">
         <span className={`listing-status ${statusClass(l.status)}`}>{l.status}</span>
-        <div className="listing-location">📍 {l.location}</div>
+        <div className="listing-location">{l.location}</div>
         <div className="listing-type">{l.type}</div>
         <div className="listing-price">{l.price}</div>
         <div className="listing-desc">{l.desc}</div>
@@ -73,13 +75,12 @@ function ListingCard({ l, onViewListing }) {
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/listings", label: "Listings" },
-  { to: "/agents", label: "Our Agents" },
+  { to: "/agents", label: "Agents" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ];
 
 function NavBar({ menuOpen, setMenuOpen }) {
-  const navigate = useNavigate();
   const close = () => setMenuOpen(false);
 
   return (
@@ -89,7 +90,11 @@ function NavBar({ menuOpen, setMenuOpen }) {
         <span className="nav-brand-zh">陈氏地产</span>
       </NavLink>
 
-      <button className={`nav-hamburger ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen((o) => !o)} aria-label={menuOpen ? "Close menu" : "Open menu"}>
+      <button
+        className={`nav-hamburger ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen((o) => !o)}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+      >
         <span />
         <span />
         <span />
@@ -108,78 +113,74 @@ function NavBar({ menuOpen, setMenuOpen }) {
 
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 
-function Footer({ config }) {
+function Footer({ site }) {
+  const { contact, footer } = site;
   return (
     <footer className="footer">
-      <div className="footer-brand">Chen Realty · 陈氏地产</div>
+      <div className="footer-brand">{footer.tagline}</div>
       <div className="footer-addr">
-        {config.address}
+        {contact.address}
         <br />
-        {config.phone} ·{" "}
-        <a href={`mailto:${config.email}`} style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
-          {config.email}
+        {contact.phone} ·{" "}
+        <a href={`mailto:${contact.email}`} style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
+          {contact.email}
         </a>
       </div>
-      <div className="footer-copy">© {new Date().getFullYear()} Chen Realty. All rights reserved. Licensed in New Jersey.</div>
+      <div className="footer-copy">
+        © {new Date().getFullYear()} Chen Realty. All rights reserved. {footer.legal}
+      </div>
     </footer>
   );
 }
 
 // ─── PAGES ───────────────────────────────────────────────────────────────────
 
-function HomePage({ data }) {
+function HomePage({ site, listings }) {
   const navigate = useNavigate();
-  const { singleFamily, commercial } = data.listings;
 
-  const featured = [...singleFamily.filter((l) => l.status === "Active"), ...commercial.filter((l) => l.status === "Active")].slice(0, 4);
+  const byCategory = (cat) => listings.filter((l) => l.category === cat);
+  const featured = listings.slice(0, 4);
 
   return (
     <>
       <section className="hero">
-        <div className="hero-eyebrow">Chen Realty · 陈氏地产 · Est. 1989</div>
-        <h1 className="hero-title">Trusted New Jersey Real Estate</h1>
-        <p className="hero-subtitle">Full-service residential and commercial brokerage serving Central and Northern New Jersey. Multilingual agents. Personalized service. Three decades of expertise.</p>
+        <div className="hero-eyebrow">{site.hero.eyebrow}</div>
+        <h1 className="hero-title">{site.hero.title}</h1>
+        <p className="hero-subtitle">{site.hero.subtitle}</p>
         <button className="btn-primary" onClick={() => navigate("/listings")}>
-          Browse Listings
+          {site.hero.cta}
         </button>
         <div className="hero-stats">
-          <div className="hero-stat">
-            <div className="hero-stat-num">35+</div>
-            <div className="hero-stat-label">Years in NJ</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-num">{data.agents.length}</div>
-            <div className="hero-stat-label">Agents</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-num">4</div>
-            <div className="hero-stat-label">Languages</div>
-          </div>
+          {site.stats.map((s) => (
+            <div key={s.label} className="hero-stat">
+              <div className="hero-stat-num">{s.num}</div>
+              <div className="hero-stat-label">{s.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="section section-white">
-        <div className="section-title">What We Offer</div>
+        <div className="section-title">{site.services.heading}</div>
         <div className="section-divider" />
-        <p className="section-lead">Whether you're searching for a single family home, condo, commercial property, or vacant lot, our agents provide customized service to ensure a timely sale or purchase at the best price.</p>
+        <p className="section-lead">{site.services.lead}</p>
         <div className="services-grid">
           {[
-            { icon: "🏡", name: "Single Family", count: `${singleFamily.length} listings` },
-            { icon: "🏢", name: "Commercial", count: `${data.listings.commercial.length} listings` },
-            { icon: "🏘️", name: "Townhome / Multi", count: `${data.listings.townhomes.length} listings` },
-            { icon: "🔑", name: "Rentals", count: `${data.listings.rentals.length} listings` },
+            { name: "Single Family",    category: "singleFamily" },
+            { name: "Commercial",       category: "commercial"   },
+            { name: "Townhome / Multi", category: "townhomes"    },
+            { name: "Rentals",          category: "rentals"      },
           ].map((s) => (
             <div key={s.name} className="service-card" onClick={() => navigate("/listings")}>
-              <div className="service-icon">{s.icon}</div>
               <div className="service-name">{s.name}</div>
-              <div className="service-count">{s.count}</div>
+              <div className="service-count">{byCategory(s.category).length} listings</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="section">
-        <div className="section-title">Featured Listings</div>
+        <div className="section-title">{site.featured.heading}</div>
         <div className="section-divider" />
         <div className="listings-grid">
           {featured.map((l) => (
@@ -188,17 +189,17 @@ function HomePage({ data }) {
         </div>
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
           <button className="btn-outline" onClick={() => navigate("/listings")}>
-            View All Listings →
+            {site.featured.cta}
           </button>
         </div>
       </section>
 
       <section className="about-strip">
-        <div className="section-title section-title-light">About Chen Realty</div>
+        <div className="section-title section-title-light">{site.about.heading}</div>
         <div className="section-divider" />
-        <p className="about-text">Established in 1989, Chen Realty is a full-service residential and commercial real estate brokerage firm servicing Central and Northern New Jersey. With over 20 agents with extensive industry training and expertise, we guarantee to be a trustworthy and knowledgeable resource to guide you through the buying, renting, or selling process.</p>
+        <p className="about-text">{site.about.body}</p>
         <div className="lang-pills">
-          {data.config.languages.map((l) => (
+          {site.contact.languages.map((l) => (
             <span key={l} className="lang-pill">
               {l}
             </span>
@@ -209,16 +210,15 @@ function HomePage({ data }) {
   );
 }
 
-function ListingsPage({ data, onViewListing }) {
-  const { singleFamily, commercial, townhomes, rentals } = data.listings;
+function ListingsPage({ listings, onViewListing }) {
   const tabs = [
-    { id: "sf", label: "Single Family", data: singleFamily },
-    { id: "co", label: "Commercial", data: commercial },
-    { id: "tm", label: "Townhome / Multi", data: townhomes },
-    { id: "re", label: "Rentals", data: rentals },
+    { id: "singleFamily", label: "Single Family" },
+    { id: "commercial",   label: "Commercial"   },
+    { id: "townhomes",    label: "Townhome / Multi" },
+    { id: "rentals",      label: "Rentals"      },
   ];
-  const [tab, setTab] = useState("sf");
-  const active = tabs.find((t) => t.id === tab);
+  const [tab, setTab] = useState("singleFamily");
+  const active = listings.filter((l) => l.category === tab);
 
   return (
     <>
@@ -235,7 +235,7 @@ function ListingsPage({ data, onViewListing }) {
           ))}
         </div>
         <div className="listings-grid">
-          {active.data.map((l) => (
+          {active.map((l) => (
             <ListingCard key={l.id} l={l} onViewListing={onViewListing} />
           ))}
         </div>
@@ -244,25 +244,49 @@ function ListingsPage({ data, onViewListing }) {
   );
 }
 
-function ListingDetailRoute({ data }) {
+function ListingDetailRoute({ listings }) {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const allListings = [...data.listings.singleFamily, ...data.listings.commercial, ...data.listings.townhomes, ...data.listings.rentals];
-  const listing = allListings.find((l) => l.id === id);
+  const [detail, setDetail] = useState(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    if (!listing) navigate("/listings", { replace: true });
-  }, [listing, navigate]);
+    setDetail(null);
+    setNotFound(false);
+    fetch(`/data/listings/${id}.json`)
+      .then((r) => {
+        if (!r.ok) throw new Error("not found");
+        return r.json();
+      })
+      .then(setDetail)
+      .catch(() => setNotFound(true));
+  }, [id]);
 
-  if (!listing) return null;
+  useEffect(() => {
+    if (notFound) navigate("/listings", { replace: true });
+  }, [notFound, navigate]);
 
-  return <ListingDetail listing={toDetailListing(listing)} onBack={() => navigate("/listings")} />;
+  if (!detail) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-brand">Chen Realty</div>
+        <div className="app-loading-sub">Loading…</div>
+      </div>
+    );
+  }
+
+  return <ListingDetail listing={toDetailListing(detail)} onBack={() => navigate("/listings")} />;
 }
 
-function AgentsPage({ data }) {
-  const brokers = data.agents.filter((a) => a.broker);
-  const assoc = data.agents.filter((a) => !a.broker);
+function AgentsPage() {
+  const [agents, setAgents] = useState(null);
+
+  useEffect(() => {
+    fetch("/data/agents.json")
+      .then((r) => r.json())
+      .then(setAgents)
+      .catch(() => console.error("Could not load agents.json"));
+  }, []);
 
   const AgentCard = ({ a }) => (
     <div className="agent-card">
@@ -281,11 +305,23 @@ function AgentsPage({ data }) {
     </div>
   );
 
+  if (!agents) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-brand">Chen Realty</div>
+        <div className="app-loading-sub">Loading…</div>
+      </div>
+    );
+  }
+
+  const brokers = agents.filter((a) => a.broker);
+  const assoc = agents.filter((a) => !a.broker);
+
   return (
     <>
       <div className="page-header">
         <div className="page-header-title">Our Agents</div>
-        <div className="page-header-sub">Meet our experienced team of {data.agents.length} licensed professionals</div>
+        <div className="page-header-sub">Meet our experienced team of {agents.length} licensed professionals</div>
       </div>
       <div className="section section-white">
         <div className="section-title">Brokerage Leadership</div>
@@ -307,7 +343,7 @@ function AgentsPage({ data }) {
   );
 }
 
-function ResourcesPage({ data }) {
+function ResourcesPage({ site }) {
   return (
     <>
       <div className="page-header">
@@ -317,7 +353,7 @@ function ResourcesPage({ data }) {
       <div className="section">
         <div className="resource-group">
           <div className="resource-group-title">Educational &amp; Training Tools</div>
-          {data.resources.educational.map((r) => (
+          {site.resources.educational.map((r) => (
             <a key={r.url} href={r.url} className="resource-link" target="_blank" rel="noopener noreferrer">
               {r.label}
             </a>
@@ -325,7 +361,7 @@ function ResourcesPage({ data }) {
         </div>
         <div className="resource-group">
           <div className="resource-group-title">NJ Municipality Information</div>
-          {data.resources.municipal.map((r) => (
+          {site.resources.municipal.map((r) => (
             <a key={r.url} href={r.url} className="resource-link" target="_blank" rel="noopener noreferrer">
               {r.label}
             </a>
@@ -336,7 +372,8 @@ function ResourcesPage({ data }) {
   );
 }
 
-function ContactPage({ config }) {
+function ContactPage({ site }) {
+  const { contact, form } = site;
   const [status, setStatus] = useState("idle"); // idle | sending | done | error
   const [fields, setFields] = useState({ name: "", email: "", phone: "", message: "" });
 
@@ -346,7 +383,7 @@ function ContactPage({ config }) {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch(`https://formspree.io/f/${config.formspreeId}`, {
+      const res = await fetch(`https://formspree.io/f/${form.formspreeId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(fields),
@@ -367,12 +404,12 @@ function ContactPage({ config }) {
         <div className="contact-layout">
           <div className="contact-card">
             {[
-              { label: "Address", value: config.address },
-              { label: "Phone", value: <a href={`tel:${config.phone.replace(/\D/g, "")}`}>{config.phone}</a> },
-              { label: "Email", value: <a href={`mailto:${config.email}`}>{config.email}</a> },
-              { label: "Area", value: config.serviceArea },
-              { label: "Languages", value: config.languages.join(" · ") },
-              { label: "Est.", value: config.established },
+              { label: "Address",   value: contact.address },
+              { label: "Phone",     value: <a href={`tel:${contact.phone.replace(/\D/g, "")}`}>{contact.phone}</a> },
+              { label: "Email",     value: <a href={`mailto:${contact.email}`}>{contact.email}</a> },
+              { label: "Area",      value: contact.serviceArea },
+              { label: "Languages", value: contact.languages.join(" · ") },
+              { label: "Est.",      value: contact.established },
             ].map((r) => (
               <div key={r.label} className="contact-row">
                 <span className="contact-label">{r.label}</span>
@@ -393,31 +430,25 @@ function ContactPage({ config }) {
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="contact-form-row">
                   <div className="form-group">
-                    <label className="form-label" htmlFor="cf-name">
-                      Name *
-                    </label>
+                    <label className="form-label" htmlFor="cf-name">Name *</label>
                     <input id="cf-name" className="form-input" type="text" required value={fields.name} onChange={set("name")} placeholder="Your name" />
                   </div>
                   <div className="form-group">
-                    <label className="form-label" htmlFor="cf-email">
-                      Email *
-                    </label>
+                    <label className="form-label" htmlFor="cf-email">Email *</label>
                     <input id="cf-email" className="form-input" type="email" required value={fields.email} onChange={set("email")} placeholder="you@example.com" />
                   </div>
                 </div>
                 <div className="form-group">
-                  <label className="form-label" htmlFor="cf-phone">
-                    Phone (optional)
-                  </label>
+                  <label className="form-label" htmlFor="cf-phone">Phone (optional)</label>
                   <input id="cf-phone" className="form-input" type="tel" value={fields.phone} onChange={set("phone")} placeholder="732-555-0100" />
                 </div>
                 <div className="form-group">
-                  <label className="form-label" htmlFor="cf-message">
-                    Message *
-                  </label>
+                  <label className="form-label" htmlFor="cf-message">Message *</label>
                   <textarea id="cf-message" className="form-textarea" required value={fields.message} onChange={set("message")} placeholder="How can we help you?" />
                 </div>
-                {status === "error" && <p className="form-feedback error">Something went wrong. Please try again or call us directly.</p>}
+                {status === "error" && (
+                  <p className="form-feedback error">Something went wrong. Please try again or call us directly.</p>
+                )}
                 <button className="form-submit" type="submit" disabled={status === "sending"}>
                   {status === "sending" ? "Sending…" : "Send Message"}
                 </button>
@@ -425,7 +456,6 @@ function ContactPage({ config }) {
             )}
           </div>
         </div>
-        {/* /contact-layout */}
       </div>
     </>
   );
@@ -434,18 +464,24 @@ function ContactPage({ config }) {
 // ─── APP SHELL (inside BrowserRouter) ────────────────────────────────────────
 
 function AppShell() {
-  const [data, setData] = useState(null);
+  const [site, setSite] = useState(null);
+  const [listings, setListings] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/listings.json")
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => console.error("Could not load listings.json"));
+    Promise.all([
+      fetch("/data/site.json").then((r) => r.json()),
+      fetch("/data/listings/index.json").then((r) => r.json()),
+    ])
+      .then(([siteData, listingsData]) => {
+        setSite(siteData);
+        setListings(listingsData);
+      })
+      .catch(() => console.error("Could not load site data"));
   }, []);
 
-  if (!data) {
+  if (!site || !listings) {
     return (
       <div className="app-loading">
         <div className="app-loading-brand">Chen Realty</div>
@@ -460,16 +496,16 @@ function AppShell() {
       <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main style={{ flex: 1 }}>
         <Routes>
-          <Route path="/" element={<HomePage data={data} />} />
-          <Route path="/listings" element={<ListingsPage data={data} onViewListing={(l) => navigate(`/listings/${l.id}`)} />} />
-          <Route path="/listings/:id" element={<ListingDetailRoute data={data} />} />
-          <Route path="/agents" element={<AgentsPage data={data} />} />
-          <Route path="/resources" element={<ResourcesPage data={data} />} />
-          <Route path="/contact" element={<ContactPage config={data.config} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/"           element={<HomePage site={site} listings={listings} />} />
+          <Route path="/listings"   element={<ListingsPage listings={listings} onViewListing={(l) => navigate(`/listings/${l.id}`)} />} />
+          <Route path="/listings/:id" element={<ListingDetailRoute listings={listings} />} />
+          <Route path="/agents"     element={<AgentsPage />} />
+          <Route path="/resources"  element={<ResourcesPage site={site} />} />
+          <Route path="/contact"    element={<ContactPage site={site} />} />
+          <Route path="*"           element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <Footer config={data.config} />
+      <Footer site={site} />
     </div>
   );
 }

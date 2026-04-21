@@ -1,0 +1,34 @@
+{
+  "id": "C1",
+  "category": "commercial",
+  "status": "Closed",
+  "type": "Office Space (Rental)",
+  "location": "Holmdel, NJ",
+  "address": "2124 NJ Hwy 35, Holmdel, NJ 07733",
+  "price": "$17/sq.ft. + NNN",
+  "beds": 0,
+  "baths": 1,
+  "halfBaths": 0,
+  "sqft": 568,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "desc": "Prime 568 sq.ft. second-floor office space near two Holmdel shopping centers. Ideal for professional office. Available immediately.",
+  "description": "Prime 568 sq.ft. second-floor office space in a well-located Holmdel professional building, situated near two major shopping centers for excellent visibility and foot traffic.\n\nIdeal for a professional office use — attorneys, accountants, insurance, financial services, and similar tenants. Clean, bright space available immediately. NNN lease structure.",
+  "features": [
+    "568 sq.ft. second-floor suite",
+    "Near two Holmdel shopping centers",
+    "Professional office building",
+    "NNN lease",
+    "Immediate availability",
+    "Ample parking"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/2124_Hwy_35.119100419_std.jpg", "caption": "Building Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

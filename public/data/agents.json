@@ -1,0 +1,20 @@
+[
+  { "name": "Yang-Heh (Kathy) Chen",    "role": "Broker of Record",   "credentials": "GRI",       "phone": "c. 732.673.5952", "email": "kathychen@chenrealty.com",  "broker": true },
+  { "name": "Cheng-Jen (Allen) Chen",   "role": "Broker-Associate",   "credentials": "CRS, ABR",  "phone": "c. 732.673.8882", "email": "allenchen@chenrealty.com",  "broker": true },
+  { "name": "Elaine Chen",              "role": "Sales Associate",    "phone": "h. 732.739.3751" },
+  { "name": "William Chuang",           "role": "Sales Associate",    "phone": "h. 732.888.0117" },
+  { "name": "Ling Wei Chiou",           "role": "Sales Associate",    "phone": "h. 732.888.1318 · c. 908.601.2799" },
+  { "name": "Sheree Lan",               "role": "Sales Associate",    "phone": "h. 732.888.1024" },
+  { "name": "Anchi Lin",                "role": "Sales Associate",    "phone": "h. 732.946.7228 · c. 908.601.8782" },
+  { "name": "Eddie Hwang",              "role": "Sales Associate",    "phone": "c. 902.902.1871" },
+  { "name": "Hsueh-Ling Jen",           "role": "Sales Associate",    "phone": "h. 732.303.8291 · c. 732.995.6063" },
+  { "name": "Hwey Yuen Kuo",            "role": "Sales Associate",    "phone": "h. 732.957.0563" },
+  { "name": "Judy Wang",                "role": "Sales Associate",    "phone": "h. 732.957.2988" },
+  { "name": "Sylvia Lu",                "role": "Sales Associate",    "phone": "h. 732.946.3716 · c. 732.673.7641" },
+  { "name": "Chia-Chi (Angie) Chen",    "role": "Sales Associate",    "phone": "c. 917.913.7238" },
+  { "name": "Wendy Yenching Chen",      "role": "Sales Associate",    "phone": "h. 732.410.4618 · c. 908.907.5251" },
+  { "name": "Wei-Min Wang",             "role": "Sales Associate",    "phone": "h. 732.946.1699 · c. 732.939.3840" },
+  { "name": "Hsiumei Hung",             "role": "Sales Associate",    "phone": "h. 732.335.9422" },
+  { "name": "Alexander Lo",             "role": "Sales Associate",    "phone": "c. 732.403.6636" },
+  { "name": "Shirley Huang",            "role": "Sales Associate",    "phone": "h. 408.777.0241" }
+]

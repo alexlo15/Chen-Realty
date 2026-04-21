@@ -1,0 +1,38 @@
+{
+  "id": "TM1",
+  "category": "townhomes",
+  "status": "Closed",
+  "type": "Townhouse",
+  "location": "Holmdel, NJ",
+  "address": "Orchard Crossing, Holmdel, NJ",
+  "price": "$449,000",
+  "beds": 4,
+  "baths": 2,
+  "halfBaths": 1,
+  "sqft": 2050,
+  "lotSqft": 0,
+  "yearBuilt": "1995",
+  "style": "Townhouse — Ascot Model",
+  "garage": "1-Car",
+  "parking": "1-Car Garage + Driveway",
+  "desc": "Beautiful Ascot Model in Orchard Crossing. 4 bedrooms, 1-car garage, quiet cul-de-sac. Newer ceramic floors, updated granite kitchen. Great location near shopping and NYC bus.",
+  "description": "Beautiful Ascot Model townhouse in the sought-after Orchard Crossing community of Holmdel. This 4-bedroom home sits on a quiet cul-de-sac and offers a 1-car garage.\n\nThe home features newer ceramic tile floors and an updated granite kitchen. Orchard Crossing offers a well-maintained community setting in one of Monmouth County's most desirable towns — close to Holmdel shopping, parks, and NYC bus service.",
+  "features": [
+    "Ascot Model — Orchard Crossing",
+    "4 bedrooms",
+    "1-car garage",
+    "Quiet cul-de-sac location",
+    "Newer ceramic tile floors",
+    "Updated granite kitchen",
+    "Near shopping & NYC bus"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/Front_View.121190202_std.jpg", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

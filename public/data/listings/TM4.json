@@ -1,0 +1,37 @@
+{
+  "id": "TM4",
+  "category": "townhomes",
+  "status": "Closed",
+  "type": "Townhouse",
+  "location": "Middletown, NJ",
+  "address": "Middletown, NJ",
+  "price": "$249,000",
+  "beds": 3,
+  "baths": 2,
+  "halfBaths": 0,
+  "sqft": 1500,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "style": "Townhouse — End Unit",
+  "desc": "3-bedroom end-unit townhouse. Walk-out basement, fireplace in living room, newer hot water heater and some windows. Close to shopping, bus, train, and ferry to NYC. Sold AS IS.",
+  "description": "3-bedroom end-unit townhouse offering the added privacy and extra windows that come with a corner position. The home features a walk-out basement and a fireplace in the living room. The hot water heater and several windows have been updated.\n\nClose to shopping centers and excellent commuter options including bus, NJ Transit train, and the NY Waterway ferry to NYC. Sold strictly AS IS.",
+  "features": [
+    "End unit",
+    "Walk-out basement",
+    "Fireplace in living room",
+    "Newer hot water heater",
+    "Updated windows",
+    "Close to shopping",
+    "Near bus, train & ferry",
+    "Sold AS IS"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/20170902004042209575000000.86135125_std.jpg", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "TM2",
+  "category": "townhomes",
+  "status": "Closed",
+  "type": "Townhouse",
+  "location": "Middletown, NJ",
+  "address": "Middletown, NJ",
+  "price": "$249,000",
+  "beds": 3,
+  "baths": 2,
+  "halfBaths": 1,
+  "sqft": 1650,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "style": "Townhouse",
+  "desc": "Spacious 3-bedroom townhouse with finished walk-out basement. Fireplace in living room. Close to train, bus, and ferry to NYC.",
+  "description": "Spacious 3-bedroom townhouse offering comfortable living with a finished walk-out basement that provides valuable extra space for a rec room, home office, or gym.\n\nThe living room features a cozy fireplace. Excellent commuter location — close to NJ Transit train, bus routes, and the NY Waterway ferry to NYC.",
+  "features": [
+    "3 bedrooms",
+    "Finished walk-out basement",
+    "Fireplace in living room",
+    "Close to train, bus & ferry",
+    "NYC commuter friendly"
+  ],
+  "images": [
+    { "url": "http://cdn2.photos.flexmls.com/mo/20150829160853120299000000.jpg", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

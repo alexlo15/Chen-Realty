@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "eyebrow": "Chen Realty · 陈氏地产 · Est. 1989",
+    "title": "Trusted New Jersey Real Estate",
+    "subtitle": "Full-service residential and commercial brokerage serving Central and Northern New Jersey. Multilingual agents. Personalized service. Three decades of expertise.",
+    "cta": "Browse Listings"
+  },
+  "stats": [
+    { "num": "35+", "label": "Years in NJ" },
+    { "num": "18",  "label": "Agents" },
+    { "num": "4",   "label": "Languages" }
+  ],
+  "services": {
+    "heading": "What We Offer",
+    "lead": "Whether you're searching for a single family home, condo, commercial property, or vacant lot, our agents provide customized service to ensure a timely sale or purchase at the best price."
+  },
+  "featured": {
+    "heading": "Featured Listings",
+    "cta": "View All Listings →"
+  },
+  "about": {
+    "heading": "About Chen Realty",
+    "body": "Established in 1989, Chen Realty is a full-service residential and commercial real estate brokerage firm servicing Central and Northern New Jersey. With over 20 agents with extensive industry training and expertise, we guarantee to be a trustworthy and knowledgeable resource to guide you through the buying, renting, or selling process."
+  },
+  "contact": {
+    "phone": "732.957.8889",
+    "email": "allenchen@chenrealty.com",
+    "address": "2124 NJ Hwy 35, Holmdel, NJ 07733",
+    "serviceArea": "Central & Northern New Jersey",
+    "established": "1989",
+    "languages": ["English", "Taiwanese", "Cantonese", "Mandarin"]
+  },
+  "form": {
+    "formspreeId": "YOUR_FORMSPREE_ID"
+  },
+  "footer": {
+    "tagline": "Chen Realty · 陈氏地产",
+    "legal": "Licensed in New Jersey."
+  },
+  "resources": {
+    "educational": [
+      { "label": "Real Estate ABC's — Home Buying Guide", "url": "http://www.realestateabc.com/homebuying/" },
+      { "label": "Realtor.org (National Association of Realtors)",  "url": "http://www.realtor.org/" },
+      { "label": "Mortgage Calculator", "url": "https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx" }
+    ],
+    "municipal": [
+      { "label": "Monmouth County",             "url": "http://www.visitmonmouth.com/" },
+      { "label": "Holmdel Township School System", "url": "http://www.holmdeltownship-nj.com/services/schools.html" },
+      { "label": "Middlesex County",            "url": "http://www.co.middlesex.nj.us/" },
+      { "label": "Ocean County, NJ",            "url": "http://www.co.ocean.nj.us/" }
+    ]
+  }
+}

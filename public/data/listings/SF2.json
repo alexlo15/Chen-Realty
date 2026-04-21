@@ -1,0 +1,40 @@
+{
+  "id": "SF2",
+  "category": "singleFamily",
+  "status": "Closed",
+  "type": "Single Family",
+  "location": "Tinton Falls, NJ",
+  "address": "Tinton Falls, NJ",
+  "price": "$375,000",
+  "beds": 3,
+  "baths": 2,
+  "halfBaths": 0,
+  "sqft": 1600,
+  "lotSqft": 7800,
+  "yearBuilt": "1985",
+  "style": "Bilevel",
+  "heating": "Gas",
+  "cooling": "Central A/C",
+  "parking": "Driveway",
+  "desc": "Well-maintained 3 bed, 2 bath bilevel in desirable Tinton Greens. Updated roof, gutters, hot water heater, and vinyl floors throughout. New dishwasher. Sliding door in family room to large backyard with shed.",
+  "description": "Well-maintained 3-bedroom, 2-bath bilevel in the desirable Tinton Greens community. This move-in ready home has been thoughtfully updated throughout.\n\nMajor mechanicals have all been recently replaced, including the roof, gutters, and hot water heater. New vinyl floors run throughout the home. The family room features a sliding door opening to a large backyard with a storage shed — great for outdoor entertaining or extra storage.",
+  "features": [
+    "Updated roof",
+    "New gutters",
+    "New hot water heater",
+    "Vinyl floors throughout",
+    "New dishwasher",
+    "Sliding door to backyard",
+    "Large backyard with shed",
+    "Desirable Tinton Greens community"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/Front_View.86122357_std.jpg", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}

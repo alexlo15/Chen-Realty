@@ -1,0 +1,36 @@
+{
+  "id": "R3",
+  "category": "rentals",
+  "status": "Closed",
+  "type": "Townhouse",
+  "location": "Holmdel, NJ",
+  "address": "Woods at Holmdel, Holmdel, NJ",
+  "price": "$2,800/mo",
+  "beds": 3,
+  "baths": 2,
+  "halfBaths": 1,
+  "sqft": 1900,
+  "lotSqft": 0,
+  "yearBuilt": "",
+  "style": "Townhouse",
+  "desc": "Spacious 3 bed, 2.5 bath townhouse in desirable Woods at Holmdel. Gas fireplace, private deck overlooking wooded buffer, vaulted master bedroom, walkout basement. Close to all forms of NYC transportation.",
+  "description": "Spacious 3-bedroom, 2.5-bath townhouse in the desirable Woods at Holmdel community, offering a peaceful wooded setting with excellent commuter convenience.\n\nThe living room features a gas fireplace. A private deck overlooks a wooded buffer — ideal for relaxing outdoors. The master bedroom is vaulted for an airy feel. The walkout basement provides additional living or storage space.\n\nClose to all forms of NYC transportation including bus, train, and ferry.",
+  "features": [
+    "3 bedrooms",
+    "Gas fireplace",
+    "Private deck with wooded views",
+    "Vaulted master bedroom",
+    "Walkout basement",
+    "Woods at Holmdel community",
+    "Close to all NYC transportation"
+  ],
+  "images": [
+    { "url": "http://chenrealty.com/assets/images/IMG_1985.86124635_std.JPG", "caption": "Front Exterior" }
+  ],
+  "agent": {
+    "name": "Cheng-Jen (Allen) Chen",
+    "title": "Broker-Associate, CRS, ABR",
+    "phone": "732.673.8882",
+    "email": "allenchen@chenrealty.com"
+  }
+}
