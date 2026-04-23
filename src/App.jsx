@@ -1,8 +1,26 @@
 // Chen Realty — chen-realty.com
-import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, NavLink, useNavigate, useParams, useLocation, Navigate } from "react-router-dom";
+import { useState, useEffect, Component } from "react";
+import { BrowserRouter, Routes, Route, NavLink, useNavigate, useParams, useLocation, useSearchParams, Navigate } from "react-router-dom";
 import ListingDetail from "./ListingDetail";
 import "./App.css";
+
+// ─── ERROR BOUNDARY ───────────────────────────────────────────────────────────
+
+class ErrorBoundary extends Component {
+  state = { error: null };
+  static getDerivedStateFromError(error) { return { error }; }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: "3rem 2rem", textAlign: "center" }}>
+          <p style={{ color: "#888", marginBottom: "1rem" }}>Something went wrong loading this page.</p>
+          <button className="btn-outline" onClick={() => this.setState({ error: null })}>Try again</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
@@ -127,7 +145,7 @@ function Footer({ site }) {
         </a>
       </div>
       <div className="footer-copy">
-        © {new Date().getFullYear()} Chen Realty. All rights reserved. {footer.legal}
+        © {new Date().getFullYear()} Chen Realty. {footer.legal} {footer.built}
       </div>
     </footer>
   );
@@ -171,7 +189,7 @@ function HomePage({ site, listings }) {
             { name: "Townhome / Multi", category: "townhomes"    },
             { name: "Rentals",          category: "rentals"      },
           ].map((s) => (
-            <div key={s.name} className="service-card" onClick={() => navigate("/listings")}>
+            <div key={s.name} className="service-card" onClick={() => navigate(`/listings?category=${s.category}`)}>
               <div className="service-name">{s.name}</div>
               <div className="service-count">{byCategory(s.category).length} listings</div>
             </div>
@@ -217,7 +235,10 @@ function ListingsPage({ listings, onViewListing }) {
     { id: "townhomes",    label: "Townhome / Multi" },
     { id: "rentals",      label: "Rentals"      },
   ];
-  const [tab, setTab] = useState("singleFamily");
+  const [searchParams] = useSearchParams();
+  const validIds = tabs.map((t) => t.id);
+  const initial = searchParams.get("category");
+  const [tab, setTab] = useState(validIds.includes(initial) ? initial : "singleFamily");
   const active = listings.filter((l) => l.category === tab);
 
   return (
@@ -234,11 +255,15 @@ function ListingsPage({ listings, onViewListing }) {
             </button>
           ))}
         </div>
-        <div className="listings-grid">
-          {active.map((l) => (
-            <ListingCard key={l.id} l={l} onViewListing={onViewListing} />
-          ))}
-        </div>
+        {active.length === 0 ? (
+          <div className="listings-empty">Nothing to see now. More coming soon!</div>
+        ) : (
+          <div className="listings-grid">
+            {active.map((l) => (
+              <ListingCard key={l.id} l={l} onViewListing={onViewListing} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
@@ -495,15 +520,17 @@ function AppShell() {
       <ScrollToTop />
       <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/"           element={<HomePage site={site} listings={listings} />} />
-          <Route path="/listings"   element={<ListingsPage listings={listings} onViewListing={(l) => navigate(`/listings/${l.id}`)} />} />
-          <Route path="/listings/:id" element={<ListingDetailRoute listings={listings} />} />
-          <Route path="/agents"     element={<AgentsPage />} />
-          <Route path="/resources"  element={<ResourcesPage site={site} />} />
-          <Route path="/contact"    element={<ContactPage site={site} />} />
-          <Route path="*"           element={<Navigate to="/" replace />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/"           element={<HomePage site={site} listings={listings} />} />
+            <Route path="/listings"   element={<ListingsPage listings={listings} onViewListing={(l) => navigate(`/listings/${l.id}`)} />} />
+            <Route path="/listings/:id" element={<ListingDetailRoute listings={listings} />} />
+            <Route path="/agents"     element={<AgentsPage />} />
+            <Route path="/resources"  element={<ResourcesPage site={site} />} />
+            <Route path="/contact"    element={<ContactPage site={site} />} />
+            <Route path="*"           element={<Navigate to="/" replace />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
       <Footer site={site} />
     </div>

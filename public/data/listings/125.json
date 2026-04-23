@@ -1,0 +1,227 @@
+{
+  "id": "125",
+  "category": "townhomes",
+  "status": "Active",
+  "type": "Townhouse — End Unit",
+  "location": "125 Northampton Dr, Holmdel, NJ",
+  "address": "125 Northampton Dr, Holmdel, NJ 07733",
+  "price": "$575,000",
+  "beds": 2,
+  "baths": 2,
+  "halfBaths": 1,
+  "sqft": 1778,
+  "lotSqft": 871,
+  "yearBuilt": "1984",
+  "style": "End Unit Townhouse",
+  "mls": "22611065",
+  "taxes": "$7,498 / yr (2025)",
+  "heating": "Forced Air / Natural Gas",
+  "cooling": "Central Air",
+  "basement": "Finished",
+  "school": "William R. Satz MS · Holmdel Township",
+  "hoa": "$350 / mo (Common Elements)",
+  "parking": "Assigned",
+  "desc": "Beautifully maintained 2-bed, 2.5-bath end-unit in Holmdel Mews. Wood-burning fireplace, finished basement, eat-in kitchen with pantry and slider to patio. Low-maintenance living in one of Holmdel's most desirable communities.",
+  "description": "This beautifully maintained end-unit townhouse offers the perfect blend of privacy, space, and low-maintenance living in one of Holmdel's most desirable communities. With approximately 1,778 sq ft, this 2-bedroom, 2.5-bath home is thoughtfully designed for both everyday comfort and easy entertaining.\n\nStep inside to a welcoming foyer with ceramic tile flooring that leads into a bright and spacious living room featuring a wood-burning fireplace — perfect for cozy evenings. The eat-in kitchen is equipped with ample cabinetry, pantry storage, and a sliding glass door that opens to your outdoor space, creating a seamless indoor-outdoor flow.\n\nUpstairs, you'll find two generously sized bedrooms, including a primary suite with a full bath, offering a peaceful retreat at the end of the day. The finished basement adds valuable bonus space — ideal for a home office, gym, media room, or guest area.",
+  "features": [
+    "End-unit with added privacy",
+    "Wood-burning fireplace",
+    "Finished basement",
+    "Ceramic tile foyer",
+    "Eat-in kitchen with pantry",
+    "Kitchen slider to outdoor space",
+    "Primary suite with full bath",
+    "Central Air / Forced Air heat",
+    "Open front porch",
+    "Assigned parking",
+    "Appliances included",
+    "Central vacuum system",
+    "Natural gas water heater",
+    "Public water & sewer"
+  ],
+  "videoUrl": "/data/listings/125/125_northampton_dr_holmdel_nj_landscape%20(2160p).mp4",
+  "images": [
+    {
+      "url": "/data/listings/125/Staged/Kitchen%201%20Staged%203.jpg",
+      "caption": "Kitchen — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Front%20Porch.jpg",
+      "caption": "Front Porch"
+    },
+    {
+      "url": "/data/listings/125/Living%201.jpg",
+      "caption": "Living Room"
+    },
+    {
+      "url": "/data/listings/125/Living%202.jpg",
+      "caption": "Living Room — Fireplace"
+    },
+    {
+      "url": "/data/listings/125/Staged/Living%202%20Staged%201.jpg",
+      "caption": "Living Room — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Living%202%20Staged%202.jpg",
+      "caption": "Living Room — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Dining%201.jpg",
+      "caption": "Dining Area"
+    },
+    {
+      "url": "/data/listings/125/Dining%202.jpg",
+      "caption": "Dining Area"
+    },
+    {
+      "url": "/data/listings/125/Staged/Dining%202%20Staged%201.jpg",
+      "caption": "Dining Area — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Dining%202%20Staged%202.jpg",
+      "caption": "Dining Area — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Kitchen%201.jpg",
+      "caption": "Kitchen"
+    },
+    {
+      "url": "/data/listings/125/Kitchen%202.jpg",
+      "caption": "Kitchen"
+    },
+    {
+      "url": "/data/listings/125/Kitchen%203.jpg",
+      "caption": "Kitchen — Pantry"
+    },
+    {
+      "url": "/data/listings/125/Kitchen%204.jpg",
+      "caption": "Kitchen — Slider"
+    },
+    {
+      "url": "/data/listings/125/Staged/Kitchen%201%20Staged%201.jpg",
+      "caption": "Kitchen — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Kitchen%201%20Staged%202.jpg",
+      "caption": "Kitchen — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Kitchen%201%20Staged%204.jpg",
+      "caption": "Kitchen — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Bed%201a.jpg",
+      "caption": "Primary Bedroom"
+    },
+    {
+      "url": "/data/listings/125/Bed%201b.jpg",
+      "caption": "Primary Bedroom"
+    },
+    {
+      "url": "/data/listings/125/Staged/Bed%201b%20Staged%201.jpg",
+      "caption": "Primary Bedroom — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Bed%201b%20Staged%202.jpg",
+      "caption": "Primary Bedroom — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Bed%201%20Bath%202.jpg",
+      "caption": "Primary Bath"
+    },
+    {
+      "url": "/data/listings/125/Bed%202a.jpg",
+      "caption": "Bedroom 2"
+    },
+    {
+      "url": "/data/listings/125/Bed%202b.jpg",
+      "caption": "Bedroom 2"
+    },
+    {
+      "url": "/data/listings/125/Staged/Bed%202b%20Staged%201.jpg",
+      "caption": "Bedroom 2 — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Bed%202b%20Staged%202.jpg",
+      "caption": "Bedroom 2 — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Bed%202%20bath.jpg",
+      "caption": "Bathroom 2"
+    },
+    {
+      "url": "/data/listings/125/Powder.jpg",
+      "caption": "Powder Room"
+    },
+    {
+      "url": "/data/listings/125/Basement%202.jpg",
+      "caption": "Finished Basement"
+    },
+    {
+      "url": "/data/listings/125/Staged/Basement%201%20Staged%201.jpg",
+      "caption": "Basement — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Basement%201%20Staged%202.jpg",
+      "caption": "Basement — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Staged/Basement%201%20Staged%203.jpg",
+      "caption": "Basement — Virtually Staged"
+    },
+    {
+      "url": "/data/listings/125/Basement%20Laundry.jpg",
+      "caption": "Laundry Room"
+    },
+    {
+      "url": "/data/listings/125/Back%201-Edit.jpg",
+      "caption": "Backyard"
+    },
+    {
+      "url": "/data/listings/125/Back%202-Edit.jpg",
+      "caption": "Backyard — Patio"
+    },
+    {
+      "url": "/data/listings/125/Back%203-Edit.jpg",
+      "caption": "Rear Exterior"
+    },
+    {
+      "url": "/data/listings/125/Overhead-Edit.jpg",
+      "caption": "Aerial View"
+    },
+    {
+      "url": "/data/listings/125/Front%201-Edit.jpg",
+      "caption": "Front Exterior"
+    },
+    {
+      "url": "/data/listings/125/Front%202-Edit.jpg",
+      "caption": "Front — Cherry Blossoms"
+    },
+    {
+      "url": "/data/listings/125/Front%203-Edit.jpg",
+      "caption": "Front Exterior"
+    },
+    {
+      "url": "/data/listings/125/Front%204-Edit.jpg",
+      "caption": "Front Exterior"
+    },
+    {
+      "url": "/data/listings/125/Floorplan%201st%20Floor.jpg",
+      "caption": "Floor Plan — Level 1"
+    },
+    {
+      "url": "/data/listings/125/Floorplan%202nd%20Floor.jpg",
+      "caption": "Floor Plan — Level 2"
+    },
+    {
+      "url": "/data/listings/125/Floorplan%20Basement.jpg",
+      "caption": "Floor Plan — Basement"
+    }
+  ],
+  "agent": {
+    "name": "Alexander Lo",
+    "title": "Sales Agent - Associate",
+    "phone": "732.403.6635",
+    "email": "loalexander389@gmail.com"
+  }
+}

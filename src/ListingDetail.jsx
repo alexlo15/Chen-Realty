@@ -214,7 +214,7 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
   const { images, status, price, address, type, beds, baths, halfBaths,
     sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling,
     basement, style: propStyle, school, hoa, parking,
-    agent, description, features } = listing;
+    agent, description, features, videoUrl } = listing;
 
 
   const openLb  = (i)   => setLbIdx(i);
@@ -312,6 +312,15 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
               <span className="ld-stat-lbl">Built</span>
             </div>
           </div>
+
+          {/* ── Video tour ── */}
+          {videoUrl && (
+            <div className="ld-card ld-video-card">
+              <div className="ld-card-title">Video Tour</div>
+              <div className="ld-gold-rule" />
+              <video className="ld-video" src={videoUrl} controls playsInline />
+            </div>
+          )}
 
           {/* ── Description ── */}
           <div className="ld-card">

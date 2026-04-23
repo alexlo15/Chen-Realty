@@ -361,6 +361,14 @@ button {
 
 .listings-grid { display: grid; gap: 1rem; }
 
+.listings-empty {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+}
+
 @media (min-width: 580px) {
   .listings-grid { grid-template-columns: 1fr 1fr; }
 }
