@@ -212,7 +212,7 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
   const [lbIdx, setLbIdx] = useState(null); // null = closed
   const [descOpen, setDescOpen] = useState(false);
 
-  const { images, status, price, address, type, beds, baths, halfBaths, sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling, basement, style: propStyle, school, hoa, parking, agent, description, features, videoUrl } = listing;
+  const { images, status, price, address, type, beds, baths, halfBaths, sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling, basement, style: propStyle, school, hoa, parking, agent, description, features, videoUrl, zillowUrl } = listing;
 
   const openLb = (i) => setLbIdx(i);
   const closeLb = () => setLbIdx(null);
@@ -348,6 +348,26 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
             </div>
           </div>
 
+          {/* ── Zillow card (mobile) ── */}
+          {zillowUrl && (
+            <a
+              className="ld-zillow-card ld-zillow-mobile"
+              href={zillowUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="ld-zillow-logo">
+                <img src="/zillow.png" alt="Zillow" className="ld-zillow-img" />
+              </div>
+              <span className="ld-zillow-cta">
+                View on Zillow
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </a>
+          )}
+
           {/* ── Mobile agent card ── */}
           <div className="ld-card" style={{ display: "block" }}>
             <div className="ld-card-title">Listing Agent</div>
@@ -434,6 +454,26 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
               </div>
             </div>
           </div>
+
+          {/* Zillow card */}
+          {zillowUrl && (
+            <a
+              className="ld-zillow-card"
+              href={zillowUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="ld-zillow-logo">
+                <img src="/zillow.png" alt="Zillow" className="ld-zillow-img" />
+              </div>
+              <span className="ld-zillow-cta">
+                View on Zillow
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </a>
+          )}
         </aside>
       </div>
       {/* /ld-body */}

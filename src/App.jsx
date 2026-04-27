@@ -202,7 +202,7 @@ function HomePage({ site, listings }) {
         <div className="section-divider" />
         <div className="listings-grid">
           {featured.map((l) => (
-            <ListingCard key={l.id} l={l} />
+            <ListingCard key={l.id} l={l} onViewListing={(l) => navigate(`/listings/${l.id}`)} />
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
@@ -398,7 +398,7 @@ function ResourcesPage({ site }) {
 }
 
 function ContactPage({ site }) {
-  const { contact, form } = site;
+  const { contact } = site;
   const [status, setStatus] = useState("idle"); // idle | sending | done | error
   const [fields, setFields] = useState({ name: "", email: "", phone: "", message: "" });
 
@@ -408,7 +408,7 @@ function ContactPage({ site }) {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch(`https://formspree.io/f/${form.formspreeId}`, {
+      const res = await fetch("https://formsubmit.co/ajax/loalexander389@gmail.com", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(fields),
