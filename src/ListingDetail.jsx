@@ -71,39 +71,72 @@ const STATUS_PB = { Active: "ld-pb-active", Closed: "ld-pb-closed", "Under Contr
 
 // ─── LIGHTBOX ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ images, idx, onClose, onNav }) {
-  const img = images[idx];
+function Lightbox({ images, startIdx = 0, startInGrid = false, onClose }) {
+  const [mode, setMode] = useState(startInGrid ? "grid" : "single");
+  const [idx, setIdx] = useState(startIdx);
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") onNav(-1);
-      if (e.key === "ArrowRight") onNav(+1);
+      if (e.key === "Escape") {
+        if (mode === "single" && startInGrid) setMode("grid");
+        else onClose();
+      }
+      if (mode === "single") {
+        if (e.key === "ArrowLeft") setIdx((i) => (i - 1 + images.length) % images.length);
+        if (e.key === "ArrowRight") setIdx((i) => (i + 1 + images.length) % images.length);
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [onClose, onNav]);
+  }, [mode, onClose, startInGrid, images.length]);
 
+  const openSingle = (i) => { setIdx(i); setMode("single"); };
+  const backToGrid = () => setMode("grid");
+  const nav = (dir) => setIdx((i) => (i + dir + images.length) % images.length);
+
+  if (mode === "grid") {
+    return (
+      <div className="ld-lb ld-lb-grid-mode" onClick={onClose}>
+        <button className="ld-lb-close" onClick={onClose}>✕</button>
+        <div className="ld-lb-grid-wrap" onClick={(e) => e.stopPropagation()}>
+          <p className="ld-lb-grid-title">{images.length} Photos</p>
+          <div className="ld-lb-grid">
+            {images.map((im, i) => (
+              <div key={i} className="ld-lb-grid-item" onClick={() => openSingle(i)}>
+                <img src={im.url} alt={im.caption} loading="lazy" />
+                {im.caption && <div className="ld-lb-grid-caption">{im.caption}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const img = images[idx];
   return (
-    <div className="ld-lb" onClick={onClose}>
-      <button className="ld-lb-close" onClick={onClose}>
-        ✕
-      </button>
-      <span className="ld-lb-counter">
-        {idx + 1} / {images.length}
-      </span>
-
+    <div className="ld-lb" onClick={startInGrid ? backToGrid : onClose}>
+      <button className="ld-lb-close" onClick={onClose}>✕</button>
+      {startInGrid && (
+        <button className="ld-lb-back-grid" onClick={(e) => { e.stopPropagation(); backToGrid(); }}>
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          All Photos
+        </button>
+      )}
+      <span className="ld-lb-counter">{idx + 1} / {images.length}</span>
       <div className="ld-lb-inner" onClick={(e) => e.stopPropagation()}>
         <div className="ld-lb-img-wrap">
           <img src={img.url} alt={img.caption} className="ld-lb-img" />
           {images.length > 1 && (
             <>
-              <button className="ld-lb-arrow ld-lb-arrow-p" onClick={() => onNav(-1)}>
+              <button className="ld-lb-arrow ld-lb-arrow-p" onClick={() => nav(-1)}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              <button className="ld-lb-arrow ld-lb-arrow-n" onClick={() => onNav(+1)}>
+              <button className="ld-lb-arrow ld-lb-arrow-n" onClick={() => nav(+1)}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -112,13 +145,6 @@ function Lightbox({ images, idx, onClose, onNav }) {
           )}
         </div>
         {img.caption && <p className="ld-lb-caption">{img.caption}</p>}
-        <div className="ld-lb-thumbs">
-          {images.map((im, i) => (
-            <div key={i} className={`ld-lb-thumb ${i === idx ? "on" : ""}`} onClick={() => onNav(i - idx)}>
-              <img src={im.url} alt={im.caption} />
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -148,14 +174,14 @@ function Gallery({ images, price, address, status, onOpenLightbox }) {
       {/* ── Main image ── */}
       <div className="ld-gallery">
         {images.map((im, i) => (
-          <img key={i} src={im.url} alt={im.caption} className={`ld-gimg ${i === idx ? "on" : ""}`} onClick={() => onOpenLightbox(idx)} draggable={false} />
+          <img key={i} src={im.url} alt={im.caption} className={`ld-gimg ${i === idx ? "on" : ""}`} onClick={() => onOpenLightbox(idx, false)} draggable={false} />
         ))}
 
         {/* Status badge */}
         <span className={`ld-g-status ${STATUS_G[status] ?? "ld-gs-closed"}`}>{status}</span>
 
         {/* Photo count */}
-        <button className="ld-g-count" onClick={() => onOpenLightbox(idx)}>
+        <button className="ld-g-count" onClick={() => onOpenLightbox(idx, true)}>
           ⊞ {images.length} photos
         </button>
 
@@ -181,7 +207,7 @@ function Gallery({ images, price, address, status, onOpenLightbox }) {
             <div className="ld-g-price">{fmt(price)}</div>
             <div className="ld-g-addr">{address}</div>
           </div>
-          <button className="ld-g-expand" onClick={() => onOpenLightbox(idx)}>
+          <button className="ld-g-expand" onClick={() => onOpenLightbox(idx, true)}>
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
               <path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -214,19 +240,14 @@ function Gallery({ images, price, address, status, onOpenLightbox }) {
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 
 export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
-  const [lbIdx, setLbIdx] = useState(null); // null = closed
+  const [lbIdx, setLbIdx] = useState(null);
+  const [lbGrid, setLbGrid] = useState(false);
   const [descOpen, setDescOpen] = useState(false);
 
   const { images, status, price, address, type, beds, baths, halfBaths, sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling, basement, style: propStyle, school, hoa, parking, agent, description, features, videoUrl, disclosureUrl, zillowUrl } = listing;
 
-  const openLb = (i) => setLbIdx(i);
+  const openLb = (i, inGrid = false) => { setLbIdx(i); setLbGrid(inGrid); };
   const closeLb = () => setLbIdx(null);
-  const navLb = useCallback(
-    (dir) => {
-      setLbIdx((i) => (i + dir + images.length) % images.length);
-    },
-    [images.length],
-  );
 
   const details = [
     { l: "MLS #", v: mls },
@@ -511,7 +532,7 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
       </div>
 
       {/* ── Lightbox ── */}
-      {lbIdx !== null && <Lightbox images={images} idx={lbIdx} onClose={closeLb} onNav={navLb} />}
+      {lbIdx !== null && <Lightbox images={images} startIdx={lbIdx} startInGrid={lbGrid} onClose={closeLb} />}
     </div>
   );
 }
