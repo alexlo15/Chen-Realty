@@ -3,7 +3,7 @@
 // Standalone: renders with SAMPLE_LISTING if no prop is passed.
 // Wire into App.jsx: import ListingDetail + add a `detail` page state.
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import "./ListingDetail.css";
 
 // ─── SAMPLE DATA ──────────────────────────────────────────────────────────────
@@ -128,6 +128,7 @@ function Lightbox({ images, idx, onClose, onNav }) {
 
 function Gallery({ images, price, address, status, onOpenLightbox }) {
   const [idx, setIdx] = useState(0);
+  const thumbRefs = useRef([]);
 
   const go = useCallback(
     (dir) => {
@@ -137,6 +138,10 @@ function Gallery({ images, price, address, status, onOpenLightbox }) {
   );
 
   const goTo = (i) => setIdx(i);
+
+  useEffect(() => {
+    thumbRefs.current[idx]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [idx]);
 
   return (
     <div className="ld-gallery-wrap">
@@ -197,7 +202,7 @@ function Gallery({ images, price, address, status, onOpenLightbox }) {
       {/* ── Thumbnails ── */}
       <div className="ld-thumbs">
         {images.map((im, i) => (
-          <div key={i} className={`ld-thumb ${i === idx ? "on" : ""}`} onClick={() => goTo(i)}>
+          <div key={i} ref={(el) => (thumbRefs.current[i] = el)} className={`ld-thumb ${i === idx ? "on" : ""}`} onClick={() => goTo(i)}>
             {im.url ? <img src={im.url} alt={im.caption} loading="lazy" /> : <div className="ld-thumb-ph">{im.caption}</div>}
           </div>
         ))}
@@ -212,7 +217,7 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
   const [lbIdx, setLbIdx] = useState(null); // null = closed
   const [descOpen, setDescOpen] = useState(false);
 
-  const { images, status, price, address, type, beds, baths, halfBaths, sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling, basement, style: propStyle, school, hoa, parking, agent, description, features, videoUrl } = listing;
+  const { images, status, price, address, type, beds, baths, halfBaths, sqft: sf, lotSqft, yearBuilt, garage, mls, taxes, heating, cooling, basement, style: propStyle, school, hoa, parking, agent, description, features, videoUrl, disclosureUrl } = listing;
 
   const openLb = (i) => setLbIdx(i);
   const closeLb = () => setLbIdx(null);
@@ -347,6 +352,22 @@ export default function ListingDetail({ listing = SAMPLE_LISTING, onBack }) {
                 ))}
             </div>
           </div>
+
+          {/* ── Seller's Disclosure ── */}
+          {disclosureUrl && (
+            <div className="ld-card ld-disclosure-card">
+              <div className="ld-card-title">Seller's Disclosure</div>
+              <div className="ld-gold-rule" />
+              <p className="ld-disclosure-desc">Review the seller's property disclosure statement for this listing.</p>
+              <a className="ld-disclosure-link" href={disclosureUrl} target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 2h6l4 4v8a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M9 2v4h4M6 9h4M6 11.5h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+                View Disclosure (PDF)
+              </a>
+            </div>
+          )}
 
           {/* ── Mobile agent card ── */}
           <div className="ld-card" style={{ display: "block" }}>

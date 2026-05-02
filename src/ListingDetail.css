@@ -393,6 +393,32 @@
 
 .ld-video-card { padding-bottom: 1rem; }
 
+.ld-disclosure-desc {
+  font-size: 0.85rem;
+  color: var(--ld-muted);
+  margin: 0.75rem 0 1rem;
+  line-height: 1.5;
+}
+
+.ld-disclosure-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ld-navy);
+  border: 1.5px solid var(--ld-navy);
+  border-radius: var(--ld-r-sm);
+  padding: 0.55rem 1rem;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ld-disclosure-link:hover {
+  background: var(--ld-navy);
+  color: #fff;
+}
+
 .ld-video {
   width: 100%;
   border-radius: var(--ld-r-md);
