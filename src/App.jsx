@@ -95,7 +95,7 @@ const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/listings", label: "Listings" },
   { to: "/agents", label: "Agents" },
-  { to: "/market-analysis", label: "Market Analysis" },
+  { to: "/market-analysis", label: "Analysis" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ];

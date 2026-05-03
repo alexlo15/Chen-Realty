@@ -664,6 +664,356 @@
   white-space: nowrap;
 }
 
+/* ── RETRIEVE SAVED REPORT ───────────────────────────────────────────────── */
+
+.ma-maps-note {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #9B9FAD;
+  font-size: 0.75rem;
+}
+
+.ma-retrieve {
+  margin-top: 1.25rem;
+  border-top: 1px solid #E8E3D9;
+  padding-top: 1rem;
+}
+
+.ma-retrieve-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #717787;
+  padding: 0;
+  transition: color 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.ma-retrieve-toggle:hover { color: var(--navy, #131E30); }
+
+.ma-retrieve-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ma-retrieve-desc {
+  font-size: 0.78rem;
+  color: #9B9FAD;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ma-retrieve-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ma-retrieve-row .ma-input { flex: 1; }
+
+.ma-input-code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  letter-spacing: 0.1em;
+  max-width: 160px;
+}
+
+.ma-submit-sm {
+  padding: 0.7rem;
+  font-size: 0.82rem;
+}
+
+/* ── TOKEN BANNER ─────────────────────────────────────────────────────────── */
+
+.ma-token-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  background: #F0FAF5;
+  border-bottom: 1px solid #A7F3D0;
+  padding: 0.85rem 1.25rem;
+  font-size: 0.82rem;
+}
+
+.ma-token-label {
+  color: #065F46;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.ma-token-val {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #064E3B;
+  background: #D1FAE5;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+}
+
+.ma-token-copy {
+  background: #10B981;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.ma-token-copy:hover { background: #059669; }
+
+/* ── LOCATION CARD ────────────────────────────────────────────────────────── */
+
+.ma-location-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.ma-sv-wrap,
+.ma-map-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #E8E3D9;
+}
+
+.ma-sv-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.ma-osm {
+  width: 100%;
+  height: 180px;
+  border: none;
+  display: block;
+}
+
+.ma-sv-label,
+.ma-map-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9B9FAD;
+  padding: 0.3rem 0.6rem;
+  background: #FAFAF8;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .ma-location-wrap { grid-template-columns: 1fr; }
+  .ma-sv-img, .ma-osm { height: 160px; }
+}
+
+/* ── PRICE RANGE TRACK ────────────────────────────────────────────────────── */
+
+.ma-range-track {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0.75rem auto 0;
+  height: 6px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+
+.ma-range-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(201,165,90,0.4) 0%, var(--gold, #C9A55A) 100%);
+  border-radius: 3px;
+}
+
+.ma-range-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border: 2.5px solid var(--gold, #C9A55A);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ── COMPS TABS ───────────────────────────────────────────────────────────── */
+
+.ma-comps-tabs {
+  display: flex;
+  gap: 0;
+  background: #F7F5F0;
+  border: 1px solid #E8E3D9;
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 0.75rem;
+}
+
+.ma-comps-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #717787;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.ma-comps-tab.on {
+  background: #fff;
+  color: var(--navy, #131E30);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.ma-comps-tab-ct {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(19,30,48,0.08);
+  color: inherit;
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.ma-comps-tab.on .ma-comps-tab-ct {
+  background: var(--gold, #C9A55A);
+  color: #fff;
+}
+
+/* ── COMP CARDS ───────────────────────────────────────────────────────────── */
+
+.ma-comp-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ma-comp-card {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #FAFAF8;
+  border: 1px solid #E8E3D9;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+
+.ma-comp-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.07); }
+
+.ma-comp-thumb {
+  flex-shrink: 0;
+  width: 110px;
+  background: #F0EDE6;
+  overflow: hidden;
+}
+
+.ma-comp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ma-comp-thumb-ph {
+  width: 100%;
+  height: 100%;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #BBC0CC;
+}
+
+.ma-comp-card-body {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.ma-comp-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ma-comp-card-addr {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--navy, #131E30);
+  line-height: 1.3;
+  flex: 1;
+  min-width: 0;
+}
+
+.ma-comp-card-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy, #131E30);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.ma-comp-card-specs {
+  font-size: 0.75rem;
+  color: #3D4554;
+  font-weight: 500;
+}
+
+.ma-comp-card-meta {
+  font-size: 0.7rem;
+  color: #9B9FAD;
+  line-height: 1.4;
+}
+
+.ma-comps-empty {
+  font-size: 0.85rem;
+  color: #9B9FAD;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .ma-comp-thumb { width: 80px; }
+  .ma-comps-tab  { font-size: 0.72rem; padding: 0.45rem 0.5rem; }
+  .ma-retrieve-row { flex-direction: column; }
+  .ma-input-code { max-width: 100%; }
+  .ma-token-banner { flex-direction: column; align-items: flex-start; }
+}
+
 /* ── SAVE ERROR / DISCLAIMER ─────────────────────────────────────────────── */
 
 .ma-save-error {
