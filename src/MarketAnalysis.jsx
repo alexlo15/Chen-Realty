@@ -145,7 +145,7 @@ function InputView({ onSubmit, initialAddress, initialEmail, errorMsg }) {
           {[
             { n: "1", t: "Enter an address", d: "Any NJ property. Google Maps autocomplete ensures a clean address." },
             { n: "2", t: "We pull public data", d: "Property records, automated valuation, and 10+ recent comparable sales." },
-            { n: "3", t: "AI writes the analysis", d: "Claude synthesizes the data into a professional market summary with a suggested price." },
+            { n: "3", t: "Our custom research tool writes the analysis", d: "Our agent synthesizes the data into a professional market summary with a suggested price." },
           ].map((s) => (
             <div key={s.n} className="ma-step">
               <div className="ma-step-num">{s.n}</div>
@@ -166,7 +166,7 @@ function InputView({ onSubmit, initialAddress, initialEmail, errorMsg }) {
 const LOADING_MSGS = [
   "Fetching property records…",
   "Running comparable sales analysis…",
-  "Generating AI market summary…",
+  "Generating your market summary…",
 ];
 
 function LoadingView({ address }) {
@@ -300,7 +300,7 @@ function ResultsView({ results, onReset }) {
           </div>
         )}
 
-        {/* ── AI narrative ── */}
+        {/* ── Narrative ── */}
         {aiSummary && (
           <div className="ma-card ma-ai-card">
             <div className="ma-card-title">Market Analysis</div>
