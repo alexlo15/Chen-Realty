@@ -2,6 +2,7 @@
 import { useState, useEffect, Component } from "react";
 import { BrowserRouter, Routes, Route, NavLink, useNavigate, useParams, useLocation, useSearchParams, Navigate } from "react-router-dom";
 import ListingDetail from "./ListingDetail";
+import MarketAnalysis from "./MarketAnalysis";
 import "./App.css";
 
 // ─── ERROR BOUNDARY ───────────────────────────────────────────────────────────
@@ -94,6 +95,7 @@ const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/listings", label: "Listings" },
   { to: "/agents", label: "Agents" },
+  { to: "/market-analysis", label: "Market Analysis" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ];
@@ -526,6 +528,7 @@ function AppShell() {
             <Route path="/listings"   element={<ListingsPage listings={listings} onViewListing={(l) => navigate(`/listings/${l.id}`)} />} />
             <Route path="/listings/:id" element={<ListingDetailRoute listings={listings} />} />
             <Route path="/agents"     element={<AgentsPage />} />
+            <Route path="/market-analysis" element={<MarketAnalysis />} />
             <Route path="/resources"  element={<ResourcesPage site={site} />} />
             <Route path="/contact"    element={<ContactPage site={site} />} />
             <Route path="*"           element={<Navigate to="/" replace />} />
