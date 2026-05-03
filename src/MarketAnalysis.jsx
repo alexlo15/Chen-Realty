@@ -18,6 +18,14 @@ function fmtDate(iso) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "2-digit" });
 }
 
+function stripMd(text) {
+  return text
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/gs, "$1")
+    .replace(/\*(.*?)\*/gs, "$1")
+    .trim();
+}
+
 // ─── Google Maps loader ───────────────────────────────────────────────────────
 
 function loadGoogleMaps() {
@@ -205,8 +213,24 @@ function ResultsView({ results, onReset }) {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
 
-  const { address, property, avm, comps, aiSummary, priceLow, priceHigh, priceEstimate } = results;
+  // Normalize: Rentcast /properties returns an array
+  const rawProp = results.property;
+  const property = Array.isArray(rawProp) ? rawProp[0] : rawProp;
+
+  const { address, avm, aiSummary, priceLow, priceHigh, priceEstimate } = results;
+
+  // Use merged comps; fall back to avm.comparables if comps array is empty
+  const comps = results.comps?.length > 0 ? results.comps : (avm?.comparables ?? []);
+
   const confidence = avm?.score != null ? Math.round(avm.score * 100) : null;
+
+  // Tax assessment trend
+  const taxRows = property?.taxAssessments
+    ? Object.values(property.taxAssessments).sort((a, b) => b.year - a.year).slice(0, 3)
+    : [];
+  const taxPayRows = property?.propertyTaxes
+    ? Object.values(property.propertyTaxes).sort((a, b) => b.year - a.year).slice(0, 2)
+    : [];
 
   async function handleSave() {
     if (saving || saved) return;
@@ -282,12 +306,14 @@ function ResultsView({ results, onReset }) {
                 { l: "Beds",       v: property.bedrooms },
                 { l: "Baths",      v: property.bathrooms },
                 { l: "Sq Ft",      v: property.squareFootage?.toLocaleString() },
-                { l: "Lot Size",   v: property.lotSize ? `${property.lotSize} ac` : null },
+                { l: "Lot",        v: property.lotSize ? `${property.lotSize.toLocaleString()} sqft` : null },
                 { l: "Year Built", v: property.yearBuilt },
                 { l: "City",       v: property.city },
                 { l: "County",     v: property.county },
                 { l: "Zip",        v: property.zipCode },
-                { l: "Last Sale",  v: property.lastSalePrice ? `${fmtDollar(property.lastSalePrice)} (${fmtDate(property.lastSaleDate)})` : null },
+                { l: "Subdivision",v: property.subdivision ?? null },
+                { l: "Zoning",     v: property.zoning ?? null },
+                { l: "Last Sale",  v: property.lastSalePrice ? `${fmtDollar(property.lastSalePrice)} — ${fmtDate(property.lastSaleDate)}` : null },
               ]
                 .filter((d) => d.v != null && d.v !== "")
                 .map((d, i) => (
@@ -297,6 +323,29 @@ function ResultsView({ results, onReset }) {
                   </div>
                 ))}
             </div>
+
+            {/* Tax assessments */}
+            {taxRows.length > 0 && (
+              <div className="ma-tax-section">
+                <div className="ma-tax-title">Tax Assessments</div>
+                <div className="ma-tax-grid">
+                  {taxRows.map((t) => (
+                    <div key={t.year} className="ma-tax-row">
+                      <span className="ma-tax-year">{t.year}</span>
+                      <span className="ma-tax-val">{fmtDollar(t.value)}</span>
+                      <span className="ma-tax-sub">Land {fmtDollar(t.land)} · Imp {fmtDollar(t.improvements)}</span>
+                    </div>
+                  ))}
+                  {taxPayRows.map((t) => (
+                    <div key={`tax-${t.year}`} className="ma-tax-row">
+                      <span className="ma-tax-year">{t.year}</span>
+                      <span className="ma-tax-val">{fmtDollar(t.total)}/yr</span>
+                      <span className="ma-tax-sub">Property tax</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -310,37 +359,41 @@ function ResultsView({ results, onReset }) {
                 <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4" />
                 <path d="M5.5 8.5l2 2 3-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              AI-Generated Summary · Claude Haiku
+              AI-Generated Summary · Claude Sonnet
             </div>
-            <p className="ma-ai-text">{aiSummary}</p>
+            <p className="ma-ai-text">{stripMd(aiSummary)}</p>
           </div>
         )}
 
         {/* ── Comps table ── */}
         {comps?.length > 0 && (
           <div className="ma-card">
-            <div className="ma-card-title">Comparable Sales</div>
+            <div className="ma-card-title">Comparable Listings</div>
             <div className="ma-gold-rule" />
+            <p className="ma-comps-note">
+              Recent listings sorted by similarity. "Off market" properties were removed from MLS and likely sold.
+            </p>
             <div className="ma-comps-scroll">
               <table className="ma-comps">
                 <thead>
                   <tr>
                     <th>Address</th>
-                    <th>Sold Price</th>
+                    <th>Price</th>
                     <th>Bd</th>
                     <th>Ba</th>
                     <th>Sq Ft</th>
                     <th>$/Sqft</th>
-                    <th>Sold Date</th>
-                    <th>Distance</th>
+                    <th>Listed</th>
+                    <th>DOM</th>
+                    <th>Status</th>
+                    <th>Dist</th>
+                    <th>Match</th>
                   </tr>
                 </thead>
                 <tbody>
                   {comps.map((c, i) => {
-                    const ppsf =
-                      c.price && c.squareFootage
-                        ? "$" + Math.round(c.price / c.squareFootage)
-                        : "—";
+                    const ppsf = c.price && c.squareFootage ? "$" + Math.round(c.price / c.squareFootage) : "—";
+                    const isActive = c.status === "Active";
                     return (
                       <tr key={i}>
                         <td className="ma-comp-addr">{c.formattedAddress ?? "—"}</td>
@@ -350,7 +403,14 @@ function ResultsView({ results, onReset }) {
                         <td>{c.squareFootage?.toLocaleString() ?? "—"}</td>
                         <td>{ppsf}</td>
                         <td>{fmtDate(c.listedDate)}</td>
-                        <td>{c.distance != null ? `${c.distance.toFixed(2)} mi` : "—"}</td>
+                        <td>{c.daysOnMarket ?? "—"}</td>
+                        <td>
+                          <span className={`ma-comp-status ${isActive ? "active" : "offmarket"}`}>
+                            {isActive ? "Active" : "Off Market"}
+                          </span>
+                        </td>
+                        <td>{c.distance != null ? `${c.distance.toFixed(2)}mi` : "—"}</td>
+                        <td>{c.correlation != null ? `${Math.round(c.correlation * 100)}%` : "—"}</td>
                       </tr>
                     );
                   })}

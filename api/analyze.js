@@ -1,7 +1,7 @@
 const RENTCAST_BASE = "https://api.rentcast.io/v1";
 
-function dollarFmt(n) {
-  return n ? "$" + Number(n).toLocaleString() : "N/A";
+function $$(n) {
+  return n != null ? "$" + Number(n).toLocaleString() : "N/A";
 }
 
 async function rentcastFetch(path, apiKey) {
@@ -15,10 +15,18 @@ async function rentcastFetch(path, apiKey) {
   return res.json();
 }
 
+function stripMarkdown(text) {
+  return text
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/gs, "$1")
+    .replace(/\*(.*?)\*/gs, "$1")
+    .replace(/__(.*?)__/gs, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .trim();
+}
+
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const { address, email } = req.body ?? {};
   if (!address?.trim() || !email?.trim()) {
@@ -27,7 +35,6 @@ export default async function handler(req, res) {
 
   const RENTCAST_KEY = process.env.RENTCAST_API_KEY;
   const CLAUDE_KEY = process.env.CLAUDE_API_KEY;
-
   if (!RENTCAST_KEY || !CLAUDE_KEY) {
     return res.status(500).json({ error: "Server misconfigured — API keys missing" });
   }
@@ -35,59 +42,132 @@ export default async function handler(req, res) {
   const encoded = encodeURIComponent(address.trim());
 
   try {
-    // Property record + AVM value in parallel
-    const [property, avmData] = await Promise.all([
+    // Property record + AVM (which includes its own comparables) in parallel
+    const [rawProperty, avmData] = await Promise.all([
       rentcastFetch(`/properties?address=${encoded}`, RENTCAST_KEY).catch(() => null),
-      rentcastFetch(`/avm/value?address=${encoded}&compCount=5`, RENTCAST_KEY).catch(() => null),
+      rentcastFetch(`/avm/value?address=${encoded}&compCount=10`, RENTCAST_KEY).catch(() => null),
     ]);
 
-    if (!avmData && !property) {
+    if (!avmData && !rawProperty) {
       return res.status(404).json({
         error: "No property data found for this address. Please verify the full address and try again.",
       });
     }
 
-    // Comparable sales (depends on property type)
+    // Rentcast /properties returns an array — normalize to a single object
+    const property = Array.isArray(rawProperty)
+      ? rawProperty[0]
+      : (rawProperty ?? avmData?.subjectProperty ?? null);
+
+    // The AVM response already contains the best comparable listings
+    // The separate /avm/sale/comparables endpoint is secondary
+    const avmComps = avmData?.comparables ?? [];
+
+    // Try dedicated comps endpoint as supplement (fails gracefully)
     const propertyType = property?.propertyType ?? "Single Family";
-    const compsData = await rentcastFetch(
-      `/avm/sale/comparables?address=${encoded}&propertyType=${encodeURIComponent(propertyType)}&status=Sold&daysOld=365&compCount=10`,
+    const extraCompsData = await rentcastFetch(
+      `/avm/sale/comparables?address=${encoded}&propertyType=${encodeURIComponent(propertyType)}&status=Sold&daysOld=730&compCount=8`,
       RENTCAST_KEY
     ).catch(() => null);
+    const soldComps = extraCompsData?.comparables ?? [];
 
-    const comparables = compsData?.comparables ?? [];
+    // Merge: sold comps first (more reliable pricing signal), then AVM comps to fill out
+    const seenIds = new Set(soldComps.map((c) => c.id));
+    const mergedComps = [
+      ...soldComps,
+      ...avmComps.filter((c) => !seenIds.has(c.id)),
+    ].slice(0, 10);
 
-    // Build Claude prompt
-    const propDesc = property
-      ? `${property.bedrooms ?? "?"}BR / ${property.bathrooms ?? "?"}BA, ${property.squareFootage?.toLocaleString() ?? "?"}sqft, built ${property.yearBuilt ?? "?"}, ${property.propertyType ?? "residential"} at ${address.trim()}`
-      : address.trim();
+    // ── Build rich property context for Claude ──────────────────────────────
 
-    const avmDesc = avmData
-      ? `Automated valuation: ${dollarFmt(avmData.price)} (range: ${dollarFmt(avmData.priceRangeLow)} – ${dollarFmt(avmData.priceRangeHigh)})${avmData.score != null ? `, ${Math.round(avmData.score * 100)}% confidence` : ""}`
-      : "Automated valuation data unavailable";
+    const taxLines = property?.taxAssessments
+      ? Object.values(property.taxAssessments)
+          .sort((a, b) => b.year - a.year)
+          .slice(0, 3)
+          .map((t) => `${t.year}: ${$$(t.value)} assessed (${$$(t.land)} land + ${$$(t.improvements)} improvements)`)
+          .join(" | ")
+      : null;
 
-    const compLines = comparables
+    const taxPayLines = property?.propertyTaxes
+      ? Object.values(property.propertyTaxes)
+          .sort((a, b) => b.year - a.year)
+          .slice(0, 2)
+          .map((t) => `${t.year}: ${$$(t.total)}/yr`)
+          .join(" | ")
+      : null;
+
+    const feat = property?.features ?? {};
+    const featureStr = [
+      feat.architectureType,
+      feat.floorCount ? `${feat.floorCount}-story` : null,
+      feat.roomCount ? `${feat.roomCount} rooms` : null,
+      feat.exteriorType,
+      feat.roofType ? `${feat.roofType} roof` : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    const lastSale = property?.lastSaleDate && property?.lastSalePrice
+      ? `${$$(property.lastSalePrice)} on ${new Date(property.lastSaleDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+      : null;
+
+    const ppsf = avmData?.price && property?.squareFootage
+      ? Math.round(avmData.price / property.squareFootage)
+      : null;
+
+    const compLines = mergedComps
       .slice(0, 8)
       .map((c, i) => {
-        const ppsf =
-          c.price && c.squareFootage ? `$${Math.round(c.price / c.squareFootage)}/sqft` : "";
-        const date = c.listedDate
-          ? new Date(c.listedDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-          : "?";
-        return `${i + 1}. ${c.formattedAddress ?? "Unknown address"} — sold ${dollarFmt(c.price)} ${ppsf}, ${c.squareFootage?.toLocaleString() ?? "?"}sqft, ${c.bedrooms ?? "?"}bd/${c.bathrooms ?? "?"}ba, ${date}, ${c.distance?.toFixed(2) ?? "?"}mi away`;
+        const cPpsf = c.price && c.squareFootage ? `$${Math.round(c.price / c.squareFootage)}/sqft` : "";
+        const listed = c.listedDate ? new Date(c.listedDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "?";
+        const removed = c.removedDate ? new Date(c.removedDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : null;
+        const dom = c.daysOnMarket ? `${c.daysOnMarket} DOM` : "";
+        const dist = c.distance != null ? `${c.distance.toFixed(2)}mi` : "";
+        const corr = c.correlation != null ? `${Math.round(c.correlation * 100)}% match` : "";
+        const statusStr = c.status === "Active" ? "ACTIVE" : (removed ? `off market ${removed}` : "off market");
+        return `${i + 1}. ${c.formattedAddress ?? "Unknown"} — ${$$(c.price)} ${cPpsf} | ${c.bedrooms ?? "?"}bd/${c.bathrooms ?? "?"}ba${c.squareFootage ? " " + c.squareFootage.toLocaleString() + "sqft" : ""} | built ${c.yearBuilt ?? "?"} | listed ${listed}, ${dom} | ${statusStr} | ${dist} | ${corr}`;
       })
       .join("\n");
 
-    const prompt = `You are a licensed NJ real estate listing agent writing a brief Comparative Market Analysis (CMA) for a client.
+    // ── Claude prompt ────────────────────────────────────────────────────────
 
-Subject property: ${propDesc}
-${avmDesc}
+    const systemPrompt = `You are a licensed New Jersey real estate broker with 20+ years of experience in Monmouth and Ocean County residential markets. You write precise, data-driven Comparative Market Analyses for listing clients.
 
-Recent comparable sold listings used in this analysis:
-${compLines || "No comparable sales data available"}
+STRICT FORMATTING RULES — violations are unacceptable:
+- Plain prose paragraphs only
+- Zero markdown: no asterisks, no pound signs, no dashes for lists, no backticks, no underscores for emphasis
+- Do not write the property address as a heading or title
+- Do not use the words "Comparative Market Analysis" or "CMA" as a title
+- Numbers and prices: use dollar signs and commas ($617,000 not 617000)`;
 
-Write a concise professional market analysis in 3–4 short paragraphs covering: (1) a brief overview of this property and the current local market, (2) what the comparable sales indicate about pricing and demand in this neighborhood, (3) a specific suggested listing price with rationale, and (4) one sentence on seller positioning strategy. Use specific dollar figures. Keep it under 280 words. Do not use headers or bullet points. Write in first person as the listing agent.`;
+    const userPrompt = `Analyze this property and write a market analysis for the listing agent to present to the seller.
 
-    // Call Claude Haiku for cost-efficient generation
+SUBJECT PROPERTY
+Address: ${property?.formattedAddress ?? address.trim()}
+Type: ${property?.propertyType ?? "Residential"} | ${property?.bedrooms ?? "?"}BR / ${property?.bathrooms ?? "?"}BA | ${property?.squareFootage?.toLocaleString() ?? "?"}sqft | Built ${property?.yearBuilt ?? "?"}
+${property?.lotSize ? `Lot: ${property.lotSize.toLocaleString()} sqft` : ""}
+${featureStr ? `Features: ${featureStr}` : ""}
+${lastSale ? `Last sale: ${lastSale}` : ""}
+${taxLines ? `Tax assessments (recent): ${taxLines}` : ""}
+${taxPayLines ? `Property taxes: ${taxPayLines}` : ""}
+
+AUTOMATED VALUATION MODEL
+Estimate: ${$$(avmData?.price)} ${ppsf ? `($${ppsf}/sqft)` : ""}
+Range: ${$$(avmData?.priceRangeLow)} – ${$$(avmData?.priceRangeHigh)}
+
+COMPARABLE LISTINGS (recently active nearby — correlation score = similarity to subject)
+${compLines || "No comparable data available."}
+
+Write exactly 4 paragraphs of plain prose:
+1. Brief property overview and current market conditions in ${property?.city ?? "this area"}, NJ — reference what property type demand looks like and what the tax assessment trend suggests about value appreciation
+2. Analysis of the comparable listings — note the pricing spread, price per square foot, days on market for nearby units; identify which comps are most similar and why
+3. Your specific recommended listing price (a precise number or tight $10K–$20K range) with clear reasoning tied to the comp data and the AVM estimate
+4. One focused sentence on seller strategy — timing, staging, pricing approach to generate early offers
+
+Plain text only. Reference specific addresses and prices from the comps. Do not start any sentence with "I" as the first word.`;
+
+    // ── Call Claude Sonnet ───────────────────────────────────────────────────
+
     const claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -96,24 +176,27 @@ Write a concise professional market analysis in 3–4 short paragraphs covering:
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 650,
-        messages: [{ role: "user", content: prompt }],
+        model: "claude-sonnet-4-6",
+        max_tokens: 900,
+        system: systemPrompt,
+        messages: [{ role: "user", content: userPrompt }],
       }),
     });
 
-    const claudeData = claudeRes.ok ? await claudeRes.json() : null;
     if (!claudeRes.ok) {
       console.error("Claude API error:", await claudeRes.text().catch(() => "unknown"));
     }
-    const aiSummary = claudeData?.content?.[0]?.text ?? "";
+
+    const claudeData = claudeRes.ok ? await claudeRes.json() : null;
+    const rawSummary = claudeData?.content?.[0]?.text ?? "";
+    const aiSummary = stripMarkdown(rawSummary);
 
     return res.status(200).json({
       address: address.trim(),
       email: email.trim(),
       property,
       avm: avmData,
-      comps: comparables,
+      comps: mergedComps,
       aiSummary,
       priceLow: avmData?.priceRangeLow ?? null,
       priceHigh: avmData?.priceRangeHigh ?? null,
